@@ -1,0 +1,264 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            width: 40%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Churn Prediction</h1>
+    <form id="prediction-form">
+        <label for="tenure">Tenure:</label>
+        <input type="number" id="tenure" name="tenure" required>
+        
+        <label for="fiber-optic">Internet Service (Fiber Optic):</label>
+        <input type="number" id="fiber-optic" name="fiber-optic" placeholder="1 for Yes, 0 for No" required>
+        
+        <label for="credit-card">Payment Method (Credit Card - Automatic):</label>
+        <input type="number" id="credit-card" name="credit-card" placeholder="1 for Yes, 0 for No" required>
+        
+        <button type="submit">Predict</button>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        const form = document.getElementById('prediction-form');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const tenure = document.getElementById('tenure').value;
+            const fiberOptic = document.getElementById('fiber-optic').value;
+            const creditCard = document.getElementById('credit-card').value;
+
+            const data = {
+                tenure: parseFloat(tenure),
+                InternetService_Fiber_optic: parseFloat(fiberOptic),
+                PaymentMethod_Credit_card_automatic: parseFloat(creditCard)
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                resultDiv.textContent = `Prediction: ${result.prediction ? '1-Churn' : '0-Not Churn'}`;
+            } catch (error) {
+                resultDiv.textContent = 'An error occurred while making the prediction.';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #208b49;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Center container styling */
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+        }
+
+        input, button {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            input, button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <a href="#">Optimizing Customer Churn Prediction with Ant
+                Colony Optimization: A Hybrid Deep Learning
+                Approach</a>
+        </div>
+        <!-- <div class="navbar-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div> -->
+    </div>
+
+    <!-- Center container -->
+    <div class="container">
+        <h1>Customer Churn Prediction</h1>
+        <form id="prediction-form">
+            <label for="tenure">Tenure:</label>
+            <input type="number" id="tenure" name="tenure" placeholder="Enter the tenure (in months)" required>
+
+            <label for="fiber-optic">Internet Service (Fiber Optic):</label>
+            <input type="number" id="fiber-optic" name="fiber-optic" placeholder="1 for Yes, 0 for No" required>
+
+            <label for="credit-card">Payment Method (Credit Card - Automatic):</label>
+            <input type="number" id="credit-card" name="credit-card" placeholder="1 for Yes, 0 for No" required>
+
+            <button type="submit">Predict</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('prediction-form');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const tenure = document.getElementById('tenure').value;
+            const fiberOptic = document.getElementById('fiber-optic').value;
+            const creditCard = document.getElementById('credit-card').value;
+
+            const data = {
+                tenure: parseFloat(tenure),
+                InternetService_Fiber_optic: parseFloat(fiberOptic),
+                PaymentMethod_Credit_card_automatic: parseFloat(creditCard)
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                resultDiv.textContent = `Prediction: ${result.prediction ? '1-Churn' : '0-Not Churn'}`;
+            } catch (error) {
+                resultDiv.textContent = 'An error occurred while making the prediction.';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

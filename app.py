@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold,train_test_split,StratifiedKFold
@@ -13,8 +13,11 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv1D, Dense, GlobalAveragePooling1D, Flatten, Dropout, BatchNormalization, Add, Activation, Multiply, Reshape
 from tensorflow.keras.layers import GlobalMaxPooling1D
 from tensorflow.keras.models import save_model,load_model
+from flask import request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Mock ACO Feature Selection (replace this with your actual ACO implementation)
 def apply_aco(data):
@@ -322,17 +325,48 @@ def ACO_model():
 
 # model = load_model('churn_model.h5')
 
+# @app.route('/predict', methods=['POST'])
+# def predict():
+#     model = load_model('ACO_ChurnModel.h5')
+#     # Get the data from the request
+#     data = request.get_json()
+#     features = np.array([[data['tenure'], data['InternetService_Fiber optic'], data['PaymentMethod_Credit card (automatic)']]])
+#     # Make the prediction
+#     prediction = model.predict(features)
+#     # Convert the prediction to a Python float
+#     return jsonify({'prediction': int(prediction[0][0] > 0.5)})
+
 @app.route('/predict', methods=['POST'])
 def predict():
-    model = load_model('ACO_ChurnModel.h5')
-    # Get the data from the request
-    data = request.get_json()
-    features = np.array([[data['tenure'], data['InternetService_Fiber optic'], data['PaymentMethod_Credit card (automatic)']]])
-    # Make the prediction
-    prediction = model.predict(features)
-    # Convert the prediction to a Python float
-    return jsonify({'prediction': int(prediction[0][0] > 0.5)})
+    try:
+        # Log that the endpoint was called
+        print("Prediction endpoint called")
+        
+        # Load the model
+        model = load_model('ACO_ChurnModel.h5')
 
+        # Get the data from the request
+        data = request.get_json()
+        print("Received data:", data)
+
+        # Extract features
+        features = np.array([[data['tenure'], data['InternetService_Fiber_optic'], data['PaymentMethod_Credit_card_automatic']]])
+        print("Features for prediction:", features)
+
+        # Make the prediction
+        prediction = model.predict(features)
+        print("Raw prediction result:", prediction)
+
+        # Convert the prediction to a Python float and return the result
+        return jsonify({'prediction': int(prediction[0][0] > 0.5)})
+    except Exception as e:
+        print("Error:", e)
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/predict-page')
+def predict_page():
+    return render_template('predict.html')
 
 @app.route('/ACO_FS', methods=['POST'])
 def ACO_route():
