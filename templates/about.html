@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #208b49;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons below the navbar */
+        .subnav {
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .subnav button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .subnav button:hover {
+            background-color: #45a049;
+        }
+
+        /* Content container */
+        .content {
+            max-width: 70%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: justify;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-brand"></div>
+        <div class="navbar-links">
+            <a href="/home">Home</a>
+            <a href="/about">About Project</a>
+            <a href="/">Predictions</a>
+            <a href="/ModelEvaluationMetrics">Model Evaluation Metrics</a>
+            <a href="/Flowchart">Project Flow chart</a>
+        </div>
+    </div>
+    <!-- <div>
+        <h2 style="align-content:center ;">About the Project</h2>
+    </div> -->
+    <div class="subnav">
+        <button onclick="showContent('definition')">Definition</button>
+        <button onclick="showContent('literature')">Literature Survey</button>
+        <button onclick="showContent('methods')">Methods Used</button>
+        <button onclick="showContent('outcome')">Outcome</button>
+    </div>
+
+    <div class="content">
+        <!-- <h1>About the Project</h1> -->
+        <div id="content-area">
+            <p>Click on the buttons above to explore the details of the project.</p>
+        </div>
+    </div>
+
+    <script>
+        const contentData = {
+            definition: `
+                <h2>Definition</h2>
+                <p>Churn prediction involves identifying customers who are likely to stop using a product or service. 
+                   It helps organizations retain customers by addressing their concerns proactively.</p>
+            `,
+            literature: `
+                <h2>Literature Survey</h2>
+                <p>The literature survey explores various traditional and modern techniques for customer churn prediction, 
+                   including machine learning models and optimization-based deep learning approaches.</p>
+            `,
+            methods: `
+                <h2>Methods Used</h2>
+                <p>The project employs ACO-ChurnNet, an architecture incorporating Ant Colony Optimization (ACO) 
+                   for feature selection, 1D CNN, residual blocks, SE blocks, and spatial attention for enhanced model performance.</p>
+            `,
+            outcome: `
+                <h2>Outcome</h2>
+                <p>The proposed ACO-ChurnNet achieved high accuracy levels of 98.12%, 99.49%, and 96.31% on 
+                   three datasets, outperforming existing models and demonstrating its effectiveness.</p>
+            `
+        };
+
+        function showContent(section) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = contentData[section];
+        }
+    </script>
+</body>
+
+</html>

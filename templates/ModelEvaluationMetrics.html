@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Evaluation Metrics</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #208b49;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #208b49;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .image-group {
+            margin-bottom: 40px;
+        }
+
+        .image-row {
+            display: flex; /* Flexbox for side-by-side layout */
+            flex-wrap: wrap; /* Wrap to the next line for smaller screens */
+            justify-content: center;
+            gap: 20px; /* Space between images */
+        }
+
+        .image-row div {
+            flex: 1 1 calc(50% - 20px); /* Two images per row */
+            box-sizing: border-box;
+        }
+
+        .image-row img {
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-row img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+
+        .caption {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .image-row div {
+                flex: 1 1 100%; /* Single image per row on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand"></div>
+        <div class="navbar-links">
+            <a href="/home">Home</a>
+            <a href="/about">About Project</a>
+            <a href="/">Predictions</a>
+            <a href="/ModelEvaluationMetrics">Model Evaluation Metrics</a>
+            <a href="/Flowchart">Project Flow chart</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Heading and Image Group 1 -->
+        <div class="image-group">
+            <h2>Performance Metrics</h2>
+            <div class="image-row">
+                <div>
+                    <img src="../pic1.jpg" alt="Accuracy Graph">
+                    <p class="caption">Accuracy</p>
+                </div>
+                <div>
+                    <img src="../pic1.jpg" alt="Precision Graph">
+                    <p class="caption">Precision</p>
+                </div>
+                <div>
+                    <img src="../pic1.jpg" alt="Recall Graph">
+                    <p class="caption">Recall</p>
+                </div>
+                <div>
+                    <img src="../pic1.jpg" alt="F1-Score Graph">
+                    <p class="caption">F1-Score</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heading and Image Group 2 -->
+        <div class="image-group">
+            <h2>ROC and Feature Selection</h2>
+            <div class="image-row">
+                <div>
+                    <img src="../pic1.jpg" alt="ROC Curve">
+                    <p class="caption">ROC Curve</p>
+                </div>
+                <div>
+                    <img src="../pic1.jpg" alt="Feature Importance">
+                    <p class="caption">Feature Importance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

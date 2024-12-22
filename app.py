@@ -388,6 +388,26 @@ def preprocess_route():
 #     save_model()
 #     return jsonify({"message": "model saved"}), 200
 
+@app.route('/')
+def nav():
+    return render_template('predict.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/home')
+def predictions():
+    return render_template('predict.html')
+
+@app.route('/ModelEvaluationMetrics')
+def ModelEvaluationMetrics():
+    return render_template('ModelEvaluationMetrics.html')
+
+@app.route('/Flowchart')
+def Flowchart():
+    return render_template('Flowchart.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
