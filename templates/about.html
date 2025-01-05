@@ -78,6 +78,40 @@
             line-height: 1.6;
             color: #555;
         }
+
+        .literature-survey {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .literature-survey thead {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .literature-survey th,
+        .literature-survey td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .literature-survey tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .literature-survey th {
+            font-size: 16px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .literature-survey td {
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -120,16 +154,124 @@
                 <h2>Literature Survey</h2>
                 <p>The literature survey explores various traditional and modern techniques for customer churn prediction, 
                    including machine learning models and optimization-based deep learning approaches.</p>
+                <table class="literature-survey">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Journal Name & Year</th>
+                            <th>Methodology Adapted</th>
+                            <th>Key Findings</th>
+                            <th>Gaps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Churnnet: Deep learning enhanced customer churn prediction in telecommunication industry</td>
+                            <td>Somak J., et al.</td>
+                            <td>IEEE Access, 2024</td>
+                            <td>ChurnNet model with 3 attention mechanisms</td>
+                            <td>Achieved high prediction accuracy (95.59%, 96.94%, 97.52%) across datasets. Addressed class imbalance.</td>
+                            <td>No feature selection algorithms used</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Arithmetic optimization with ensemble deep learning</td>
+                            <td>Nagaraju J., et al.</td>
+                            <td>IEEE Access, 2023</td>
+                            <td>Combines SBLSTM and RNN models with Arithmetic Optimization Algorithm (AOA) and IGSA</td>
+                            <td>Efficient feature selection, and robust performance across datasets got 97.89%, 97.67%</td>
+                            <td>High computational complexity, unsuitable for real-time prediction</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>ChurnNet: Customer Churn Prediction in Telecommunication Industry</td>
+                            <td>Saha, S., et al.</td>
+                            <td>IEEE Access, 2021</td>
+                            <td>Combines CNN and BiLSTM in ChurnNet for capturing spatial and temporal features</td>
+                            <td>ChurnNet enhances performance with layers.</td>
+                            <td>Data Imbalance, Limited generalizability</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>A review on machine learning methods for customer churn prediction</td>
+                            <td>Krishna, E. R., et al.</td>
+                            <td>IEEE Access, 2022</td>
+                            <td>Uses GWO-PSO hybrid optimization for feature selection in disease classification</td>
+                            <td>Performance of various machine learning models</td>
+                            <td>Does not address overfitting risks in smaller datasets</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Integrated churn prediction and customer segmentation framework for telecom business</td>
+                            <td>Shuli Wu J., et al.</td>
+                            <td>IEEE Access, 2021</td>
+                            <td>Machine learning with customer segmentation clustering algorithms</td>
+                            <td>Improved churn prediction accuracy 77.19%, 93%, 63%</td>
+                            <td>High computational complexity for larger feature spaces</td>
+                        </tr>
+                    </tbody>
+                </table>
             `,
             methods: `
-                <h2>Methods Used</h2>
-                <p>The project employs ACO-ChurnNet, an architecture incorporating Ant Colony Optimization (ACO) 
-                   for feature selection, 1D CNN, residual blocks, SE blocks, and spatial attention for enhanced model performance.</p>
+                <div>
+                    <h2>Methods Used</h2>
+                    <p>The project employs ACO-ChurnNet, an innovative architecture that integrates multiple advanced techniques for effective customer churn prediction:</p>
+                    <ul>
+                        <li>
+                            <strong>Ant Colony Optimization (ACO) for Feature Selection:</strong>
+                            This algorithm mimics the behavior of ants in finding the shortest path to food. It is used to identify the most important features in the dataset, reducing dimensionality and improving model efficiency.
+                        </li>
+                        <li>
+                            <strong>1D Convolutional Neural Network (1D CNN):</strong>
+                            A neural network designed to process sequential data. It captures patterns and trends in customer data, improving the accuracy of churn prediction.
+                        </li>
+                        <li>
+                            <strong>Residual Blocks:</strong>
+                            These blocks are used to avoid vanishing gradient problems and ensure deep network training. They allow the model to learn both shallow and deep features effectively.
+                        </li>
+                        <li>
+                            <strong>Squeeze-and-Excitation (SE) Blocks:</strong>
+                            These blocks adaptively recalibrate feature maps, emphasizing important features while suppressing less useful ones. This enhances the model's ability to focus on key customer behaviors.
+                        </li>
+                        <li>
+                            <strong>Spatial Attention Mechanism:</strong>
+                            This mechanism helps the model focus on relevant spatial regions in the data, further improving feature extraction and prediction performance.
+                        </li>
+                    </ul>
+                    <p>By combining these techniques, ACO-ChurnNet achieves high prediction accuracy and efficiently handles complex datasets.</p>
+                </div>
+
             `,
             outcome: `
                 <h2>Outcome</h2>
-                <p>The proposed ACO-ChurnNet achieved high accuracy levels of 98.12%, 99.49%, and 96.31% on 
-                   three datasets, outperforming existing models and demonstrating its effectiveness.</p>
+                <p>The proposed ACO-ChurnNet achieved high accuracy levels across three datasets, outperforming existing models and demonstrating its effectiveness.</p>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IBM Telco Dataset</td>
+                            <td>98.12%</td>
+                        </tr>
+                        <tr>
+                            <td>Churn in Telecom Dataset</td>
+                            <td>99.49%</td>
+                        </tr>
+                        <tr>
+                            <td>Churn data UCI dataset</td>
+                            <td>96.31%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             `
         };
 

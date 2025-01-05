@@ -12,7 +12,7 @@
             background-color: #f4f4f9;
         }
 
-        /* Navbar styling */
+        
         .navbar {
             background-color: #208b49;
             color: white;
@@ -33,7 +33,7 @@
             text-decoration: underline;
         }
 
-        /* Center container styling */
+        
         .container {
             max-width: 500px;
             margin: 50px auto;
@@ -89,7 +89,7 @@
         }
 
         img {
-            /* width: 80%; */
+            
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -100,7 +100,57 @@
             color: #555;
             margin-top: 5px;
         }
-        /* Responsive design */
+        
+        /* body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        } */
+
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flowchart-box {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+        }
+
+        .flowchart-arrow {
+            margin: 10px;
+            width: 1px;
+            height: 20px;
+            background-color: #4CAF50;
+        }
+
+        .flowchart-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .vertical-line {
+            width: 1px;
+            height: 20px;
+            background-color: #4CAF50;
+            margin: 3px;
+        }
+
+        .horizontal-line {
+            width: 40px;
+            height: 1px;
+            background-color: #4CAF50;
+        }
         @media (max-width: 600px) {
             .container {
                 margin: 20px;
@@ -116,12 +166,11 @@
 </head>
 
 <body>
-    <!-- Navbar -->
+    
     <div class="navbar">
         <div class="navbar-brand">
-            <!-- <a href="#">Optimizing Customer Churn Prediction with Ant
-                Colony Optimization: A Hybrid Deep Learning
-                Approach</a> -->
+            
+            
         </div>
         <div class="navbar-links">
             <a href="/home">Home</a>
@@ -131,10 +180,43 @@
             <a href="/Flowchart">Project Flow chart</a>
         </div>
     </div>
-    <div>
-        <img src="../methodology.png" alt="Precision Graph">
-        <p class="caption">Flowchart</p>
-    </div>
+    
+    <div class="flowchart-container">
+    <!-- Step 1: Data Collection & Preprocessing -->
+    <div class="flowchart-box">Data Collection & Preprocessing</div>
+
+    <!-- Vertical Arrow -->
+    <div class="vertical-line"></div>
+
+    <!-- Step 2: Model Architecture -->
+    <div class="flowchart-box">Model Architecture</div>
+
+    <!-- Vertical Arrow -->
+    <div class="vertical-line"></div>
+
+    <!-- Step 3: ACO Feature Selection -->
+    <div class="flowchart-box">ACO Algorithm for Feature Selection</div>
+
+    <!-- Vertical Arrow -->
+    <div class="vertical-line"></div>
+
+    <!-- Step 4: Model Training -->
+    <div class="flowchart-box">Model Training</div>
+
+    <!-- Vertical Arrow -->
+    <div class="vertical-line"></div>
+
+    <!-- Step 5: Model Evaluation -->
+    <div class="flowchart-box">Model Evaluation</div>
+
+    <!-- Vertical Arrow -->
+    <div class="vertical-line"></div>
+
+    <!-- Step 6: Outcome -->
+    <div class="flowchart-box">Outcome</div>
+</div>
+
 </body>
 
-</html>
+</html> 
+

@@ -341,16 +341,18 @@ def predict():
     try:
         # Log that the endpoint was called
         print("Prediction endpoint called")
-        
+        scaler = MinMaxScaler()
+        training_tenure = np.array([1, 72]).reshape(-1, 1)
+        scaler.fit(training_tenure)
         # Load the model
         model = load_model('ACO_ChurnModel.h5')
-
         # Get the data from the request
         data = request.get_json()
         print("Received data:", data)
-
+        tenure_array = np.array([[data['tenure']]])  # Reshape to 2D array
+        scaled_tenure = scaler.transform(tenure_array)[0][0]
         # Extract features
-        features = np.array([[data['tenure'], data['InternetService_Fiber_optic'], data['PaymentMethod_Credit_card_automatic']]])
+        features = np.array([[scaled_tenure, data['InternetService_Fiber_optic'], data['PaymentMethod_Credit_card_automatic']]])
         print("Features for prediction:", features)
 
         # Make the prediction
@@ -398,7 +400,7 @@ def about():
 
 @app.route('/home')
 def predictions():
-    return render_template('predict.html')
+    return render_template('home.html')
 
 @app.route('/ModelEvaluationMetrics')
 def ModelEvaluationMetrics():
