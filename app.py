@@ -13,6 +13,11 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv1D, Dense, GlobalAveragePooling1D, Flatten, Dropout, BatchNormalization, Add, Activation, Multiply, Reshape
 from tensorflow.keras.layers import GlobalMaxPooling1D
 from tensorflow.keras.models import save_model,load_model
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+import io
+import base64
+
 from flask import request, jsonify
 from flask_cors import CORS
 
@@ -339,7 +344,6 @@ def ACO_model():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Log that the endpoint was called
         print("Prediction endpoint called")
         scaler = MinMaxScaler()
         training_tenure = np.array([1, 72]).reshape(-1, 1)
@@ -354,9 +358,10 @@ def predict():
         # Extract features
         features = np.array([[scaled_tenure, data['InternetService_Fiber_optic'], data['PaymentMethod_Credit_card_automatic']]])
         print("Features for prediction:", features)
-
+        scaler = StandardScaler()
+        features_scaled = scaler.fit_transform(features)
         # Make the prediction
-        prediction = model.predict(features)
+        prediction = model.predict(features_scaled)
         print("Raw prediction result:", prediction)
 
         # Convert the prediction to a Python float and return the result
@@ -364,6 +369,8 @@ def predict():
     except Exception as e:
         print("Error:", e)
         return jsonify({'error': str(e)}), 500
+
+
 
 
 @app.route('/predict-page')
@@ -410,6 +417,157 @@ def ModelEvaluationMetrics():
 def Flowchart():
     return render_template('Flowchart.html')
 
+
+@app.route('/FileUpload')
+def Fileupload():
+    return render_template('FileUpload.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try:
+        # Check if a file was uploaded
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+
+        file = request.files['file']
+
+        # Load only the required columns from the CSV file
+        required_columns = ['tenure', 'InternetService_Fiber optic', 'PaymentMethod_Credit card (automatic)', 'Churn']
+        data = pd.read_csv(file, usecols=required_columns)
+
+        # Rename columns for easier access if necessary
+        data.rename(columns={
+            'InternetService_Fiber optic': 'InternetService_Fiber_optic',
+            'PaymentMethod_Credit card (automatic)': 'PaymentMethod_Credit_card_automatic',
+            'Churn': 'actual'
+        }, inplace=True)
+
+        # Load the model
+        model = load_model('ACO_ChurnModel.h5')
+
+        # Scale the 'tenure' column
+        scaler = MinMaxScaler()
+        scaler.fit(np.array([1, 72]).reshape(-1, 1))  # Assuming tenure range is 1-72
+        data['tenure_scaled'] = scaler.transform(data[['tenure']])
+
+        # Prepare features for prediction
+        features = data[['tenure_scaled', 'InternetService_Fiber_optic', 'PaymentMethod_Credit_card_automatic']].values
+        scaler = StandardScaler()
+        features_scaled = scaler.fit_transform(features)
+        predictions = model.predict(features_scaled)
+
+        # Convert predictions to binary (0 or 1) using a threshold of 0.5
+        data['predicted'] = (predictions.flatten() > 0.5).astype(int)
+
+        # Compare predictions with actual values
+        data['correct'] = (data['predicted'] == data['actual']).astype(int)
+        correct_count = data['correct'].sum()
+        wrong_count = len(data) - correct_count
+
+        # Generate the confusion matrix
+        cm = confusion_matrix(data['actual'], data['predicted'])
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Not Churned", "Churned"])
+
+        # Save the confusion matrix plot as an image
+        plt.figure(figsize=(8, 6))
+        disp.plot(cmap=plt.cm.Blues)
+        plt.title('Confusion Matrix')
+        confusion_image = io.BytesIO()
+        plt.savefig(confusion_image, format='png')
+        plt.close()
+        confusion_image.seek(0)
+
+        # Generate percentage correct vs. incorrect as a pie chart
+        plt.figure(figsize=(6, 6))
+        plt.pie(
+            [correct_count, wrong_count],
+            labels=["Correct", "Incorrect"],
+            autopct='%1.1f%%',
+            colors=["green", "red"],
+            startangle=140
+        )
+        plt.title('Prediction Accuracy')
+        pie_image = io.BytesIO()
+        plt.savefig(pie_image, format='png')
+        plt.close()
+        pie_image.seek(0)
+
+        # Return results and images
+        results = {
+            'correct_predictions': int(correct_count),
+            'wrong_predictions': int(wrong_count),
+        }
+
+       # Encode confusion matrix image as Base64
+        confusion_image_b64 = base64.b64encode(confusion_image.getvalue()).decode('utf-8')
+
+        # Encode pie chart image as Base64
+        pie_image_b64 = base64.b64encode(pie_image.getvalue()).decode('utf-8')
+
+        # Return Base64-encoded images along with results
+        return jsonify({
+            'results': results,
+            'confusion_matrix_image': confusion_image_b64,
+            'accuracy_pie_chart': pie_image_b64
+        })
+
+    except Exception as e:
+        print("Error:", e)
+        return jsonify({'error': str(e)}), 500
+    
+# @app.route('/upload', methods=['POST'])
+# def upload_file():
+#     try:
+#         # Check if a file was uploaded
+#         if 'file' not in request.files:
+#             return jsonify({'error': 'No file uploaded'}), 400
+
+#         file = request.files['file']
+
+#         # Load only the required columns from the CSV file
+#         required_columns = ['tenure', 'InternetService_Fiber optic', 'PaymentMethod_Credit card (automatic)', 'Churn']
+#         data = pd.read_csv(file, usecols=required_columns)
+
+#         # Rename columns for easier access if necessary
+#         data.rename(columns={
+#             'InternetService_Fiber optic': 'InternetService_Fiber_optic',
+#             'PaymentMethod_Credit card (automatic)': 'PaymentMethod_Credit_card_automatic',
+#             'Churn': 'actual'
+#         }, inplace=True)
+
+#         # Load the model
+#         model = load_model('ACO_ChurnModel.h5')
+
+#         # Scale the 'tenure' column
+#         scaler = MinMaxScaler()
+#         scaler.fit(np.array([1, 72]).reshape(-1, 1))  # Assuming tenure range is 1-72
+#         data['tenure_scaled'] = scaler.transform(data[['tenure']])
+
+#         # Prepare features for prediction
+#         features = data[['tenure_scaled', 'InternetService_Fiber_optic', 'PaymentMethod_Credit_card_automatic']].values
+#         predictions = model.predict(features)
+
+#         # Convert predictions to binary (0 or 1) using a threshold of 0.5
+#         data['predicted'] = (predictions.flatten() > 0.5).astype(int)
+
+#         # Compare predictions with actual values
+#         data['correct'] = (data['predicted'] == data['actual']).astype(int)
+#         correct_count = data['correct'].sum()
+#         wrong_count = len(data) - correct_count
+
+#         # Convert results back to JSON for response
+#         results = {
+#             'correct_predictions': int(correct_count),
+#             'wrong_predictions': int(wrong_count),
+#             'detailed_results': data[['tenure', 'InternetService_Fiber_optic', 'PaymentMethod_Credit_card_automatic', 'actual', 'predicted']].to_dict(orient='records')
+#         }
+
+#         return jsonify(results)
+
+#     except Exception as e:
+#         print("Error:", e)
+#         return jsonify({'error': str(e)}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)
 

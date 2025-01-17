@@ -1,0 +1,125 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction File Upload</title>
+</head>
+<body>
+    <h1>Upload File for Churn Prediction</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="file">Choose CSV File:</label>
+        <input type="file" id="file" name="file" accept=".csv" required>
+        <button type="submit">Upload and Predict</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const resultsDiv = document.getElementById('results');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    resultsDiv.innerHTML = `
+                        <h2>Prediction Results</h2>
+                        <p>Correct Predictions: ${result.correct_predictions}</p>
+                        <p>Wrong Predictions: ${result.wrong_predictions}</p>
+                        <h3>Detailed Results</h3>
+                        <pre>${JSON.stringify(result.detailed_results, null, 2)}</pre>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p style="color: red;">Error: ${result.error}</p>`;
+                }
+            } catch (err) {
+                resultsDiv.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Predictions</title>
+</head>
+<body>
+    <h1>Upload CSV for Predictions</h1>
+
+    <!-- File Upload Form -->
+    <form id="upload-form">
+        <label for="file">Choose a CSV file:</label>
+        <input type="file" id="file" name="file" accept=".csv" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Results Section -->
+    <h2>Results</h2>
+    <div id="results">
+        <p id="prediction-summary"></p>
+        <img id="confusion-matrix" alt="Confusion Matrix" style="display: none; max-width: 100%; height: auto;">
+        <img id="accuracy-pie-chart" alt="Accuracy Pie Chart" style="display: none; max-width: 100%; height: auto;">
+    </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            const fileInput = document.getElementById('file');
+            if (fileInput.files.length === 0) {
+                alert("Please select a file!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.error}`);
+                    return;
+                }
+
+                const data = await response.json();
+
+                // Update results summary
+                const summary = document.getElementById('prediction-summary');
+                summary.textContent = `Correct Predictions: ${data.results.correct_predictions}, Wrong Predictions: ${data.results.wrong_predictions}`;
+
+                // Display Confusion Matrix Image
+                const confusionMatrixImage = document.getElementById('confusion-matrix');
+                confusionMatrixImage.src = `data:image/png;base64,${data.confusion_matrix_image}`;
+                confusionMatrixImage.style.display = 'block';
+
+                // Display Accuracy Pie Chart Image
+                const accuracyPieChart = document.getElementById('accuracy-pie-chart');
+                accuracyPieChart.src = `data:image/png;base64,${data.accuracy_pie_chart}`;
+                accuracyPieChart.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error uploading file:", error);
+                alert("An error occurred while uploading the file.");
+            }
+        });
+    </script>
+</body>
+</html>
+
